@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>회화 연습 · 야마다 선생님</title>
+<style>
+:root{--ink:#1b1f24;--sub:#5b6470;--line:#d5dbe2;--accent:#1f3a5f;--tint:#eef2f7;--warm:#8a4b2a;--bg:#fff}
+@media (prefers-color-scheme:dark){:root{--ink:#e8ebef;--sub:#a3acb8;--line:#38404a;--accent:#8fb3e0;--tint:#1e2833;--warm:#e0a47e;--bg:#14181d}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);max-width:720px;margin:0 auto;padding:16px 16px 60px}
+.ja{word-break:keep-all;overflow-wrap:anywhere;font-family:'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--accent);padding:6px 0 10px;margin-bottom:12px}
+header h1{font-size:20px;color:var(--accent)}
+header p{font-size:12px;color:var(--sub);text-align:right}
+nav{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px}
+nav button{flex:none;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer}
+nav button.on{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:700}
+.lesson{font-size:22px;font-weight:800;margin-bottom:4px}
+.lesson small{display:block;font-size:14px;font-weight:500;color:var(--sub);margin-top:2px}
+.scene{background:var(--tint);border-radius:8px;padding:12px 14px;font-size:15px;line-height:1.7;margin:12px 0 4px}
+.amb{display:flex;justify-content:flex-end;margin:10px 0 4px}
+.amb button{border:1.5px solid var(--warm);color:var(--warm);background:transparent;border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer}
+.amb button.on{background:var(--warm);color:var(--bg)}
+.cd{margin-top:22px}
+.cd h2{font-size:15px;line-height:1.5;color:var(--accent);border-left:4px solid var(--accent);padding-left:10px;margin-bottom:10px}
+.cd h2 b{display:block;font-size:12px;letter-spacing:.06em}
+.card{display:flex;gap:12px;align-items:flex-start;width:100%;border:1.5px solid var(--line);border-radius:10px;background:transparent;color:inherit;font:inherit;text-align:left;padding:12px 14px;margin-bottom:10px;cursor:pointer}
+.card.playing{border-color:var(--accent);background:var(--tint)}
+.play{flex:none;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:16px}
+.lines{flex:1;display:flex;flex-direction:column;gap:8px}
+.ln,.ln .who,.ln .j,.ln .k,.note{display:block}
+.ln .who{font-size:11px;color:var(--sub);margin-bottom:1px}
+.ln .j{font-size:21px;line-height:1.45}
+.ln .k{font-size:13px;color:var(--sub)}
+.ln.me .j{font-weight:700}
+.note{font-size:13px;color:var(--warm);margin-top:2px}
+.soon{color:var(--sub);font-size:15px;padding:30px 0;text-align:center}
+.how{font-size:14px;color:var(--sub);margin-top:24px;border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+<header><h1>회화 연습</h1><p>야마다 선생님<br><span id="ver"></span></p></header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<div class="how">수업 전에 하루 5분, 듣고 따라 말해 보세요.</div>
+<script>
+const D={"ver": "제1판", "lessons": [{"no": 7, "date": "2026-11-03", "label": "11월 3일(화) 수업", "units": "제7・8과", "scene": "저녁, 사장님의 고깃집. 처음 온 일본인 손님이 먹는 방법과 매운 정도를 묻습니다. 사장님은 가게 주인입니다.", "groups": [{"cando": "손님에게 고기 먹는 방법을 간단히 설명할 수 있다", "items": [{"id": "7-1", "c": ["これは どうやって たべますか。", "이건 어떻게 먹어요?"], "s": ["はさみで きります。サンチュで たべます。", "가위로 잘라요. 상추에 싸서 먹어요."]}, {"id": "7-2", "c": ["れいめんも はさみで きりますか。", "냉면도 가위로 잘라요?"], "s": ["はい、はさみで きります。", "네, 가위로 잘라요."]}]}, {"cando": "손님이 「좀 매워요」라고 할 때, 배려하는 한마디로 대응할 수 있다", "items": [{"id": "7-3", "c": ["この キムチは からいですか。", "이 김치는 매워요?"], "s": ["いいえ、あまり からくないです。", "아뇨, 별로 안 매워요."]}, {"id": "7-4", "c": ["……ちょっと からいです。", "……좀 맵네요."], "s": ["すみません。おみず、どうぞ。", "아이고, 물 드세요."], "note": "「すみません」은 여기서 사과보다 손님을 배려하는 한마디예요."}, {"id": "7-5", "c": ["この スープは からいですか。", "이 국물은 매워요?"], "s": ["すこし からいです。", "조금 매워요."]}]}]}, {"no": 8, "date": "2026-11-05", "label": "11월 5일(목) 수업", "units": "제9과", "groups": []}]};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const voice=new Audio(), amb=new Audio('audio/mise.m4a'); amb.loop=true;
+let ambOn=false;
+$('#ver').textContent=D.ver;
+function pick(){
+  const now=new Date(), ready=D.lessons.filter(l=>l.groups.length);
+  const next=D.lessons.find(l=>new Date(l.date+'T22:00:00+09:00')>now&&l.groups.length);
+  const h=+location.hash.slice(1); if(D.lessons.some(l=>l.no===h)) return h;
+  return (next||ready[ready.length-1]||D.lessons[0]).no;
+}
+function render(no){
+  const L=D.lessons.find(l=>l.no===no);
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',+b.dataset.n===no));
+  let h=`<div class="lesson ja">第${L.no}回<small>${esc(L.label)} · ${esc(L.units)}</small></div>`;
+  if(!L.groups.length){$('#main').innerHTML=h+'<div class="soon">준비 중입니다</div>';return}
+  h+=`<div class="scene">${esc(L.scene)}</div><div class="amb"><button id="amb" class="${ambOn?'on':''}">${ambOn?'가게 소리 끄기':'가게 소리 켜기'}</button></div>`;
+  L.groups.forEach((g,gi)=>{
+    h+=`<section class="cd"><h2><b>Can-do ${'①②③④'[gi]}</b>${esc(g.cando)}</h2>`;
+    g.items.forEach(it=>{
+      h+=`<button class="card" data-f="${esc(it.id)}"><span class="play">▶</span><span class="lines">
+        <span class="ln"><span class="who">손님</span><span class="j ja">${esc(it.c[0])}</span><span class="k">${esc(it.c[1])}</span></span>
+        <span class="ln me"><span class="who">사장님</span><span class="j ja">${esc(it.s[0])}</span><span class="k">${esc(it.s[1])}</span>
+        ${it.note?`<span class="note">${esc(it.note)}</span>`:''}</span></span></button>`;
+    });
+    h+='</section>';
+  });
+  $('#main').innerHTML=h;
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('#amb');
+  if(a){ambOn=!ambOn; if(ambOn){amb.play().catch(()=>{ambOn=false})} else amb.pause(); a.classList.toggle('on',ambOn); a.textContent=ambOn?'가게 소리 끄기':'가게 소리 켜기'; return}
+  const c=e.target.closest('.card'); if(!c) return;
+  document.querySelectorAll('.playing').forEach(x=>x.classList.remove('playing'));
+  voice.src='audio/'+c.dataset.f+'.m4a'; voice.play().then(()=>{c.classList.add('playing');voice.onended=()=>c.classList.remove('playing')}).catch(()=>{});
+});
+$('#nav').innerHTML=D.lessons.map(l=>`<button class="ja" data-n="${l.no}">第${l.no}回 ${l.date.slice(5).replace('-','/')}</button>`).join('');
+$('#nav').addEventListener('click',e=>{const b=e.target.closest('button');if(b){location.hash=b.dataset.n;render(+b.dataset.n)}});
+render(pick());
+</script>
+</body>
+</html>
