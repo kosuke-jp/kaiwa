@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>오늘의 서플리먼트 · 야마다 선생님</title>
+<style>
+:root{--ink:#1b1f24;--sub:#5b6470;--line:#d5dbe2;--navy:#1f3a5f;--red:#d9534f;--green:#2f8a4f;--tint:#eef2f7;--bg:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.ja{font-family:'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+header{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:2px solid var(--navy);position:sticky;top:0;background:var(--bg);z-index:2}
+header b{color:var(--navy);font-size:17px}
+header button{margin-left:auto}
+button{font:inherit;cursor:pointer;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px}
+main{max-width:1100px;margin:0 auto;padding:20px}
+/* cover */
+.cover{display:flex;gap:30px;align-items:center;justify-content:center;min-height:70vh;flex-wrap:wrap}
+.cover h1{font-size:44px;color:var(--navy)}
+.cover p{font-size:22px;color:var(--sub);margin-top:8px}
+.cover .start{margin-top:26px;font-size:22px;padding:14px 30px;background:var(--navy);color:#fff;border:none}
+/* toc */
+.toc{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:10px}
+.toc button{text-align:left;padding:18px;background:var(--tint);border:none}
+.toc button b{display:block;font-size:22px;color:var(--navy)}
+.toc button span{font-size:15px;color:var(--sub)}
+/* card */
+.card{min-height:62vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:22px}
+.tag{font-size:16px;color:var(--sub)}
+.q{font-size:46px;font-weight:800;line-height:1.5}
+.blank{display:inline-block;min-width:2.6em;border-bottom:4px solid var(--ink);color:transparent;cursor:pointer;margin:0 .15em}
+.blank.on{color:var(--red);border-color:var(--red)}
+.ko{font-size:22px;color:var(--sub)}
+.rule{font-size:26px;font-weight:700;border:2px solid var(--red);border-radius:12px;padding:10px 22px;visibility:hidden}
+.rule.on{visibility:visible}
+.rc{display:grid;grid-template-columns:140px 1fr;gap:22px 26px;align-items:center;text-align:left;max-width:900px}
+.rc .w{font-size:64px;font-weight:900}
+.rc .why{font-size:28px;font-weight:700}
+.rc .ex{font-size:22px;color:var(--sub);margin-top:4px}
+.ex-s{font-size:40px;font-weight:800;line-height:1.7}
+.ex-s .wd{cursor:pointer;border-radius:6px;padding:0 .1em}
+.ex-s .wd.hid{color:transparent;border-bottom:4px solid var(--ink)}
+nav.bar{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
+nav.bar button{font-size:18px;padding:12px 22px}
+.hint{font-size:14px;color:var(--sub);text-align:center}
+</style>
+</head>
+<body>
+<header><b class="ja">本日のサプリメント</b><span id="hd" class="ja"></span><button id="tocb">목차</button></header>
+<main id="m"></main>
+<script src="data.js"></script>
+<script>
+const $=s=>document.querySelector(s), E=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const COVER=`<svg viewBox="0 0 360 300" width="320" height="267" aria-hidden="true">
+ <rect width="360" height="300" rx="24" fill="#eef2f7"/>
+ <ellipse cx="180" cy="262" rx="120" ry="14" fill="#000" opacity=".08"/>
+ <rect x="120" y="70" width="120" height="180" rx="22" fill="#fff" stroke="#1f3a5f" stroke-width="6"/>
+ <rect x="112" y="40" width="136" height="40" rx="10" fill="#1f3a5f"/>
+ <rect x="138" y="120" width="84" height="70" rx="10" fill="#f6c46a"/>
+ <text x="180" y="168" font-size="40" font-weight="900" text-anchor="middle" fill="#1f3a5f" font-family="sans-serif">__NO__</text>
+ <g transform="translate(270 120) rotate(30)"><rect x="-34" y="-15" width="68" height="30" rx="15" fill="#d9534f"/><rect x="0" y="-15" width="34" height="30" rx="0" fill="#fff" opacity=".9"/><rect x="-34" y="-15" width="68" height="30" rx="15" fill="none" stroke="#a33" stroke-width="3"/></g>
+ <g transform="translate(78 200) rotate(-25)"><rect x="-30" y="-13" width="60" height="26" rx="13" fill="#2f8a4f"/><rect x="0" y="-13" width="30" height="26" fill="#fff" opacity=".9"/></g>
+ <path d="M282 200 q20 -30 46 -20 q-6 30 -46 20Z" fill="#7fb05a"/><path d="M286 198 q18 -10 36 -16" stroke="#4f7a3a" stroke-width="3" fill="none"/>
+ <circle cx="72" cy="90" r="6" fill="#ffd95a"/><circle cx="300" cy="70" r="8" fill="#ffd95a"/><circle cx="60" cy="140" r="4" fill="#ffd95a"/>
+</svg>`;
+let L, cards=[], at=0;
+function build(){
+  cards=[];
+  L.groups.forEach((g,gi)=>{
+    g.items.forEach((it,ii)=>cards.push({t:'q',g:gi,label:`${g.name}　${ii+1}/${g.items.length}`,it}));
+    if(g.card) cards.push({t:'r',g:gi,label:`${g.name}　まとめ`,g2:g});
+  });
+  L.examples.forEach((ex,i)=>cards.push({t:'e',label:`れいぶん ${i+1}`,ex}));
+}
+function cover(){
+  at=-1; $('#hd').textContent='';
+  $('#m').innerHTML=`<div class="cover">${COVER.replace('__NO__',L.no)}<div><h1 class="ja">本日のサプリメント</h1>
+  <p class="ja">第${L.no}回　${E(L.date)}　「${E(L.title)}」</p><p>지난 숙제에서 헷갈린 곳을 한 번 더.</p>
+  <button class="start">시작 →</button></div></div>`;
+  $('.start').onclick=()=>show(0);
+}
+function toc(){
+  at=-1; $('#hd').textContent=`第${L.no}回`;
+  let h='<div class="toc">'; let idx=0;
+  L.groups.forEach((g,gi)=>{ h+=`<button data-i="${cards.findIndex(c=>c.g===gi)}"><b class="ja">${E(g.name)}</b><span>${E(g.lead)}</span></button>`; });
+  h+=`<button data-i="${cards.findIndex(c=>c.t==='e')}"><b class="ja">れいぶん</b><span>읽고 외우기</span></button></div>`;
+  h+='<p class="hint" style="margin-top:20px">→ / Space：다음　← ：이전　빈칸·단어를 클릭하면 보이거나 숨겨요</p>';
+  $('#m').innerHTML=h;
+  document.querySelectorAll('.toc button').forEach(b=>b.onclick=()=>show(+b.dataset.i));
+}
+function show(i){
+  at=Math.max(0,Math.min(cards.length-1,i)); const c=cards[at];
+  $('#hd').textContent=`第${L.no}回　${at+1}/${cards.length}`;
+  let h=`<div class="card"><div class="tag ja">${E(c.label)}</div>`;
+  if(c.t==='q'){
+    const q=E(c.it.q).replace(/［(.+?)］/g,(m,a)=>`<span class="blank">${a}</span>`);
+    h+=`<div class="q ja">${q}</div><div class="ko">${E(c.it.ko)}</div><div class="rule ja">${E(c.it.rule)}</div>`;
+  } else if(c.t==='r'){
+    h+='<div class="rc">'+c.g2.card.map((r,k)=>`<div class="w ja" style="color:${k?'var(--green)':'var(--red)'}">${E(r[0])}</div><div><div class="why">${E(r[2])}</div><div class="ex ja">${E(r[1])}</div></div>`).join('')+'</div>';
+  } else {
+    h+=`<div class="ex-s ja">${c.ex.s.split(' ').map(w=>`<span class="wd">${E(w)}</span>`).join(' ')}</div><div class="ko">${E(c.ex.ko)}</div>
+    <div><button id="hideAll">다 숨기기</button> <button id="showAll">다 보기</button></div>`;
+  }
+  h+=`</div><nav class="bar"><button id="pv">← 이전</button><span class="hint">빈칸을 클릭하면 답이 나와요</span><button id="nx">다음 →</button></nav>`;
+  $('#m').innerHTML=h;
+  $('#pv').onclick=()=>at>0?show(at-1):cover(); $('#nx').onclick=next;
+  document.querySelectorAll('.blank').forEach(b=>b.onclick=()=>{b.classList.add('on'); reveal();});
+  document.querySelectorAll('.wd').forEach(w=>w.onclick=()=>w.classList.toggle('hid'));
+  const ha=$('#hideAll'); if(ha){ha.onclick=()=>document.querySelectorAll('.wd').forEach((w,k)=>k&&w.classList.add('hid')); $('#showAll').onclick=()=>document.querySelectorAll('.wd').forEach(w=>w.classList.remove('hid'));}
+}
+function reveal(){ if([...document.querySelectorAll('.blank')].every(b=>b.classList.contains('on'))) { const r=$('.rule'); if(r) r.classList.add('on'); } }
+function next(){
+  if(at<0) return show(0);
+  const bl=[...document.querySelectorAll('.blank:not(.on)')];
+  if(bl.length){ bl[0].classList.add('on'); reveal(); return; }
+  if(at<cards.length-1) show(at+1);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault(); next();}
+  else if(e.key==='ArrowLeft'){ at>0?show(at-1):cover(); }
+  else if(e.key==='Escape'){ toc(); }
+});
+$('#tocb').onclick=toc;
+const want=+location.hash.slice(1); L=LESSONS.find(l=>l.no===want)||LESSONS[LESSONS.length-1];
+build(); cover();
+</script>
+</body>
+</html>
