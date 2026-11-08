@@ -76,7 +76,7 @@ function build(){
 function cover(){
   at=-1; $('#hd').textContent='';
   $('#m').innerHTML=`<div class="cover">${COVER.replace('__NO__',L.no)}<div><h1 class="ja">本日のサプリメント</h1>
-  <p class="ja">第${L.no}回　${E(L.date)}　「${E(L.title)}」</p><p>지난 숙제에서 헷갈린 곳을 한 번 더.</p>
+  <p class="ja">第${L.no}回　${E(L.date)}　「${E(L.title)}」</p><p>틀리기 쉬운 문법, 한 알씩 채워요.</p>
   <button class="start">시작 →</button></div></div>`;
   $('.start').onclick=()=>show(0);
 }
