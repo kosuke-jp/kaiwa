@@ -34,8 +34,9 @@ main{max-width:1100px;margin:0 auto;padding:20px}
 .ko{font-size:22px;color:var(--sub)}
 .rule{font-size:26px;font-weight:700;border:2px solid var(--red);border-radius:12px;padding:10px 22px;visibility:hidden}
 .rule.on{visibility:visible}
-.rc{display:grid;grid-template-columns:140px 1fr;gap:22px 26px;align-items:center;text-align:left;max-width:900px}
-.rc .w{font-size:64px;font-weight:900}
+.rc{display:grid;grid-template-columns:auto 1fr;gap:22px 26px;align-items:center;text-align:left;max-width:900px}
+.rc .w{font-size:64px;font-weight:900;white-space:nowrap}
+.rc.many{gap:10px 26px}.rc.many .w{font-size:44px}.rc.many .why{font-size:24px}.rc.many .ex{font-size:20px}
 .rc .why{font-size:28px;font-weight:700}
 .rc .ex{font-size:22px;color:var(--sub);margin-top:4px}
 .ex-s{font-size:40px;font-weight:800;line-height:1.7}
@@ -84,7 +85,7 @@ function toc(){
   at=-1; $('#hd').textContent=`第${L.no}回`;
   let h='<div class="toc">'; let idx=0;
   L.groups.forEach((g,gi)=>{ h+=`<button data-i="${cards.findIndex(c=>c.g===gi)}"><b class="ja">${E(g.name)}</b><span>${E(g.lead)}</span></button>`; });
-  h+=`<button data-i="${cards.findIndex(c=>c.t==='e')}"><b class="ja">れいぶん</b><span>읽고 외우기</span></button></div>`;
+  h+=`<button data-i="${cards.findIndex(c=>c.t==='e')}"><b class="ja">れいぶん</b><span>${E(L.exLead||'읽고 외우기')}</span></button></div>`;
   h+='<p class="hint" style="margin-top:20px">→ / Space：다음　← ：이전　빈칸·단어를 클릭하면 보이거나 숨겨요</p>';
   $('#m').innerHTML=h;
   document.querySelectorAll('.toc button').forEach(b=>b.onclick=()=>show(+b.dataset.i));
@@ -95,9 +96,9 @@ function show(i){
   let h=`<div class="card"><div class="tag ja">${E(c.label)}</div>`;
   if(c.t==='q'){
     const q=E(c.it.q).replace(/［(.+?)］/g,(m,a)=>`<span class="blank">${a}</span>`);
-    h+=`<div class="q ja">${q}</div><div class="ko">${E(c.it.ko)}</div><div class="rule ja">${E(c.it.rule)}</div>`;
+    h+=`<div class="q ja">${q}</div>${c.it.bank?`<div class="ja" style="margin:10px 0;font-size:1.3em;color:#555">［ ${E(c.it.bank)} ］</div>`:''}<div class="ko">${E(c.it.ko)}</div><div class="rule ja">${E(c.it.rule)}</div>`;
   } else if(c.t==='r'){
-    h+='<div class="rc">'+c.g2.card.map((r,k)=>`<div class="w ja" style="color:${k?'var(--green)':'var(--red)'}">${E(r[0])}</div><div><div class="why">${E(r[2])}</div><div class="ex ja">${E(r[1])}</div></div>`).join('')+'</div>';
+    h+=`<div class="rc${c.g2.card.length>3?' many':''}">`+c.g2.card.map((r,k)=>`<div class="w ja" style="color:${k%2?'var(--green)':'var(--red)'}">${E(r[0])}</div><div><div class="why">${E(r[2])}</div><div class="ex ja">${E(r[1])}</div></div>`).join('')+'</div>';
   } else {
     h+=`<div class="ex-s ja">${c.ex.s.split(' ').map(w=>`<span class="wd">${E(w)}</span>`).join(' ')}</div><div class="ko">${E(c.ex.ko)}</div>
     <div><button id="hideAll">다 숨기기</button> <button id="showAll">다 보기</button></div>`;
