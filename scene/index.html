@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>장면 슬라이드 · 야마다 선생님</title>
+<style>
+:root{--ink:#1b1f24;--sub:#5b6470;--line:#d5dbe2;--navy:#1f3a5f;--acc:#f0a830;--tint:#eef2f7;--bg:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:system-ui,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
+.ja{font-family:'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+header{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:2px solid var(--navy);flex-wrap:wrap}
+header b{color:var(--navy);font-size:17px}
+#hd{color:var(--sub);font-size:15px}
+.sp{margin-left:auto}
+button{font:inherit;cursor:pointer;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:7px 13px}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:none;border-radius:0;padding:7px 13px}
+.seg button+button{border-left:1.5px solid var(--line)}
+.seg button.on{background:var(--navy);color:#fff}
+main{flex:1;display:flex;flex-direction:column;align-items:center;min-height:0;padding:10px 16px}
+.tag{font-size:18px;color:var(--sub);margin:2px 0 8px}
+.pic{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%}
+.pic img{max-width:100%;max-height:100%;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer}
+.cap{width:100%;max-width:1100px;margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.cap .l{background:var(--tint);border-radius:10px;padding:8px 16px}
+.cap .j{font-size:30px;font-weight:800;line-height:1.45}
+.cap .k{font-size:19px;color:var(--sub);margin-top:2px}
+body.m0 .cap{display:none}
+body.m1 .cap .k{display:none}
+nav.bar{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1100px;padding:10px 0 4px}
+nav.bar button{font-size:17px;padding:10px 20px}
+.hint{font-size:13px;color:var(--sub)}
+/* 목차 */
+.toc{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;width:100%;max-width:1100px}
+.toc h2{grid-column:1/-1;font-size:24px;color:var(--navy);margin-top:6px}
+.toc button{padding:8px;text-align:left;background:var(--tint);border:none}
+.toc img{width:100%;border-radius:8px;display:block}
+.toc span{display:block;font-size:17px;font-weight:700;margin-top:6px}
+</style>
+</head>
+<body class="m1">
+<header>
+ <b class="ja">場面スライド</b><span id="hd" class="ja"></span>
+ <span class="sp"></span>
+ <span class="seg" id="seg"><button data-m="0">문자 없음</button><button data-m="1" class="ja">日本語</button><button data-m="2">＋한국어</button></span>
+ <button id="tocb">목차</button>
+</header>
+<main id="m"></main>
+<script src="data.js"></script>
+<script>
+const $=s=>document.querySelector(s), E=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S=SETS[0], at=-1, mode=1;
+try{const v=localStorage.getItem('scene-mode'); if(v!==null) mode=+v;}catch(e){}
+function setMode(m){
+  mode=(m+3)%3; document.body.className='m'+mode;
+  document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',+b.dataset.m===mode));
+  try{localStorage.setItem('scene-mode',mode);}catch(e){}
+}
+function pick(){ const id=location.hash.slice(1); S=SETS.find(x=>x.id===id)||SETS[0]; }
+function toc(){
+  at=-1; $('#hd').textContent=S.title;
+  let h='<div class="toc">';
+  SETS.forEach(set=>{
+    h+=`<h2 class="ja">${E(set.title)}</h2>`;
+    set.slides.forEach((sl,i)=>{ h+=`<button data-s="${set.id}" data-i="${i}"><img src="${E(sl.img)}" alt=""><span class="ja">${i+1}. ${E(sl.label)}</span></button>`; });
+  });
+  $('#m').innerHTML=h+'</div>';
+  document.querySelectorAll('.toc button').forEach(b=>b.onclick=()=>{ S=SETS.find(x=>x.id===b.dataset.s); history.replaceState(null,'','#'+S.id); show(+b.dataset.i); });
+}
+function show(i){
+  at=Math.max(0,Math.min(S.slides.length-1,i)); const sl=S.slides[at];
+  $('#hd').textContent=`${S.title}　${at+1}/${S.slides.length}`;
+  const cap=sl.lines.map(l=>`<div class="l"><div class="j ja">${E(l.ja)}</div><div class="k">${E(l.ko)}</div></div>`).join('');
+  $('#m').innerHTML=`<div class="tag ja">${E(sl.label)}</div>
+   <div class="pic"><img src="${E(sl.img)}" alt="" id="pic"></div>
+   <div class="cap">${cap}</div>
+   <nav class="bar"><button id="pv">← 이전</button><span class="hint">←/→ 이동 · T 문자 전환 · Esc 목차</span><button id="nx">다음 →</button></nav>`;
+  $('#pv').onclick=()=>show(at-1); $('#nx').onclick=()=>show(at+1); $('#pic').onclick=()=>setMode(mode+1);
+}
+document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>setMode(+b.dataset.m));
+$('#tocb').onclick=toc;
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') return toc();
+  if(e.key==='t'||e.key==='T') return setMode(mode+1);
+  if(at<0) return;
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();show(at+1);}
+  if(e.key==='ArrowLeft') show(at-1);
+});
+window.addEventListener('hashchange',()=>{pick();show(0);});
+setMode(mode); pick(); show(0);
+</script>
+</body>
+</html>
