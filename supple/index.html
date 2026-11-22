@@ -45,6 +45,14 @@ main{max-width:1100px;margin:0 auto;padding:20px}
 nav.bar{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
 nav.bar button{font-size:18px;padding:12px 22px}
 .hint{font-size:14px;color:var(--sub);text-align:center}
+.slot{display:inline-block;border-bottom:4px solid var(--ink);color:transparent;margin:0 .12em;min-width:1.5em}
+.slot.on{color:var(--ink);border-color:var(--green)}
+.bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:900px}
+.bank button{font-size:26px;padding:8px 16px}
+.bank button:disabled{opacity:.25;cursor:default}
+.bank button.ng{border-color:var(--red);background:#fde8e8}
+.tg{font-size:22px;color:var(--sub);visibility:hidden}.tg.on{visibility:visible}
+.pt{font-size:24px;font-weight:700;border:2px solid var(--red);border-radius:12px;padding:8px 20px;visibility:hidden}.pt.on{visibility:visible}
 </style>
 </head>
 <body>
@@ -99,20 +107,37 @@ function show(i){
     h+=`<div class="q ja">${q}</div>${c.it.bank?`<div class="ja" style="margin:10px 0;font-size:1.3em;color:#555">［ ${E(c.it.bank)} ］</div>`:''}<div class="ko">${E(c.it.ko)}</div><div class="rule ja">${E(c.it.rule)}</div>`;
   } else if(c.t==='r'){
     h+=`<div class="rc${c.g2.card.length>3?' many':''}">`+c.g2.card.map((r,k)=>`<div class="w ja" style="color:${k%2?'var(--green)':'var(--red)'}">${E(r[0])}</div><div><div class="why">${E(r[2])}</div><div class="ex ja">${E(r[1])}</div></div>`).join('')+'</div>';
+  } else if(c.ex.parts){
+    const ex=c.ex, pool=[...ex.parts.map((w,k)=>({w,k})),...(ex.extra||[]).map(w=>({w,k:-1}))].sort(()=>Math.random()-.5);
+    h+=`<div class="ex-s ja">${ex.parts.map(w=>`<span class="slot">${E(w)}</span>`).join(' ')}</div>
+    <div class="bank ja">${pool.map(o=>`<button data-k="${o.k}">${E(o.w)}</button>`).join('')}</div>
+    <div class="tg" id="tko">${E(ex.ko)}</div><div class="pt ja" id="tpt">${E(ex.point||'')}</div>
+    <div><button id="bko">한국어</button> <button id="bpt">포인트</button> <button id="brs">처음부터</button></div>`;
   } else {
     h+=`<div class="ex-s ja">${c.ex.s.split(' ').map(w=>`<span class="wd">${E(w)}</span>`).join(' ')}</div><div class="ko">${E(c.ex.ko)}</div>
     <div><button id="hideAll">다 숨기기</button> <button id="showAll">다 보기</button></div>`;
   }
-  h+=`</div><nav class="bar"><button id="pv">← 이전</button><span class="hint">빈칸을 클릭하면 답이 나와요</span><button id="nx">다음 →</button></nav>`;
+  h+=`</div><nav class="bar"><button id="pv">← 이전</button><span class="hint">${c.t==='e'&&c.ex.parts?'단어를 순서대로 누르세요（→ 키：다음 단어）':'빈칸을 클릭하면 답이 나와요'}</span><button id="nx">다음 →</button></nav>`;
   $('#m').innerHTML=h;
   $('#pv').onclick=()=>at>0?show(at-1):cover(); $('#nx').onclick=next;
   document.querySelectorAll('.blank').forEach(b=>b.onclick=()=>{b.classList.add('on'); reveal();});
+  if(c.t==='e'&&c.ex.parts){
+    let n=0; const sl=[...document.querySelectorAll('.slot')];
+    document.querySelectorAll('.bank button').forEach(b=>b.onclick=()=>{
+      if(+b.dataset.k===n){ sl[n].classList.add('on'); b.disabled=true; n++; }
+      else { b.classList.add('ng'); setTimeout(()=>b.classList.remove('ng'),500); }
+    });
+    $('#bko').onclick=()=>$('#tko').classList.toggle('on'); $('#bpt').onclick=()=>$('#tpt').classList.toggle('on');
+    $('#brs').onclick=()=>show(at);
+  }
   document.querySelectorAll('.wd').forEach(w=>w.onclick=()=>w.classList.toggle('hid'));
   const ha=$('#hideAll'); if(ha){ha.onclick=()=>document.querySelectorAll('.wd').forEach((w,k)=>k&&w.classList.add('hid')); $('#showAll').onclick=()=>document.querySelectorAll('.wd').forEach(w=>w.classList.remove('hid'));}
 }
 function reveal(){ if([...document.querySelectorAll('.blank')].every(b=>b.classList.contains('on'))) { const r=$('.rule'); if(r) r.classList.add('on'); } }
 function next(){
   if(at<0) return show(0);
+  const nb=document.querySelector('.bank button[data-k]:not(:disabled)'), ns=document.querySelector('.slot:not(.on)');
+  if(ns){ const k=[...document.querySelectorAll('.slot')].indexOf(ns); const b=document.querySelector(`.bank button[data-k="${k}"]`); if(b) b.click(); return; }
   const bl=[...document.querySelectorAll('.blank:not(.on)')];
   if(bl.length){ bl[0].classList.add('on'); reveal(); return; }
   if(at<cards.length-1) show(at+1);
