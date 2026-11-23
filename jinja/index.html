@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>じんじゃの おまいりの しかた</title>
+<style>
+:root{--ink:#1b1f24;--sub:#5b6470;--red:#c8372d;--green:#2f8a4f;--bg:#fbfaf7;--card:#fff;--line:#e4e1da}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP","Hiragino Sans","Malgun Gothic",sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px}
+header h1{font-size:24px;margin:0}
+header .ctl button{font:inherit;font-size:16px;padding:8px 14px;border:2px solid var(--ink);background:#fff;border-radius:10px;cursor:pointer;margin-left:6px}
+header .ctl button.on{background:var(--ink);color:#fff}
+.stage{max-width:1100px;margin:0 auto;padding:0 24px 24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 26px;display:none;min-height:560px}
+.card.show{display:block}
+.num{font-size:15px;color:var(--sub)}
+h2{font-size:30px;margin:4px 0 8px}
+svg{display:block;margin:0 auto;width:100%;max-width:760px;height:300px}
+.txt{font-size:26px;line-height:1.9;margin-top:6px}
+.te{font-weight:700;color:var(--red)}
+body.quiz .te{color:transparent;border-bottom:3px solid var(--ink);cursor:pointer;position:relative}
+body.quiz .te::after{content:attr(data-base);position:absolute;left:0;bottom:-1.5em;color:var(--sub);white-space:nowrap;font-weight:400;font-size:15px}
+body.quiz .te.open{color:var(--red)}
+body.quiz .te.open::after{content:""}
+.note{font-size:18px;color:var(--sub)}
+nav{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+nav button{font:inherit;font-size:20px;padding:10px 22px;border-radius:12px;border:2px solid var(--ink);background:#fff;cursor:pointer}
+.dots span{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--line);margin:0 4px}
+.dots span.on{background:var(--ink)}
+/* figure parts */
+.fig *{stroke:var(--ink);stroke-width:5;stroke-linecap:round;fill:none}
+.fig .head{fill:#fff}
+.torso{transform-box:view-box}
+/* 1 torii bow */
+#f1 .upper{transform-origin:330px 205px;animation:bow1 8s ease-in-out infinite}
+@keyframes bow1{0%,10%{transform:rotate(0)}18%,30%{transform:rotate(-40deg)}38%,100%{transform:rotate(0)}}
+#f1{animation:walk1 8s ease-in-out infinite}
+@keyframes walk1{0%{transform:translateX(0);opacity:0}5%,40%{transform:translateX(0);opacity:1}75%{transform:translateX(-200px);opacity:1}85%,100%{transform:translateX(-200px);opacity:0}}
+/* 2 sando walk */
+#f2{animation:walk2 5s linear infinite}
+@keyframes walk2{0%{transform:translate(0,0)}100%{transform:translate(45px,-150px)}}
+.blink{animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+/* 3 temizu */
+.ladle{transform-box:fill-box;transform-origin:85% 50%;animation:tilt 3s ease-in-out infinite}
+@keyframes tilt{0%,20%{transform:rotate(0)}45%,70%{transform:rotate(-35deg)}90%,100%{transform:rotate(0)}}
+.drop{animation:drop 3s linear infinite;opacity:0}
+@keyframes drop{0%,40%{opacity:0;transform:translateY(0)}45%{opacity:1}75%{opacity:1;transform:translateY(40px)}76%,100%{opacity:0;transform:translateY(40px)}}
+.p2 .ladle,.p2 .drop{animation-delay:1s}.p3 .ladle,.p3 .drop{animation-delay:2s}
+/* 4 omairi: 12s sequence */
+.bell{transform-box:fill-box;transform-origin:50% 0;animation:bell 12s ease-in-out infinite}
+@keyframes bell{0%{transform:rotate(0)}3%{transform:rotate(14deg)}6%{transform:rotate(-14deg)}9%{transform:rotate(10deg)}12%,100%{transform:rotate(0)}}
+.coin{animation:coin 12s linear infinite;opacity:0}
+@keyframes coin{0%,14%{opacity:0;transform:translateY(0)}16%{opacity:1}24%{opacity:1;transform:translateY(70px)}25%,100%{opacity:0;transform:translateY(70px)}}
+#f4 .upper{transform-origin:520px 205px;animation:bow4 12s ease-in-out infinite}
+@keyframes bow4{0%,28%{transform:rotate(0)}32%,35%{transform:rotate(-45deg)}39%,41%{transform:rotate(0)}45%,48%{transform:rotate(-45deg)}52%,74%{transform:rotate(0)}80%,86%{transform:rotate(-45deg)}92%,100%{transform:rotate(0)}}
+.clap{opacity:0;animation:clap 12s linear infinite}
+@keyframes clap{0%,55%{opacity:0}56%,59%{opacity:1}60%,62%{opacity:0}63%,66%{opacity:1}67%,100%{opacity:0}}
+.wish{opacity:0;animation:wish 12s linear infinite}
+@keyframes wish{0%,67%{opacity:0}69%,77%{opacity:1}78%,100%{opacity:0}}
+.step4lab text{font-size:20px;fill:var(--sub);stroke:none}
+.lab{font-size:18px;fill:var(--sub);stroke:none;font-family:inherit}
+.big{font-size:26px;fill:var(--red);stroke:none;font-weight:700}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1>じんじゃの おまいりの しかた</h1>
+  <div class="ctl"><button id="qz">て形を かくす</button></div>
+</header>
+<div class="stage">
+
+<section class="card show">
+  <div class="num">1 / 5</div><h2>とりいの まえ</h2>
+  <svg viewBox="0 0 760 300" aria-label="とりいの まえで おじぎを する">
+    <g fill="#c8372d"><rect x="120" y="50" width="250" height="18" rx="6"/><rect x="140" y="85" width="210" height="12"/><rect x="160" y="60" width="18" height="230"/><rect x="312" y="60" width="18" height="230"/></g>
+    <line x1="40" y1="290" x2="720" y2="290" stroke="#cfc9bd" stroke-width="4"/>
+    <g id="f1" class="fig"><g transform="translate(150,0)">
+      <line x1="330" y1="205" x2="315" y2="288"/><line x1="330" y1="205" x2="345" y2="288"/>
+      <g class="upper"><line x1="330" y1="205" x2="330" y2="140"/><circle class="head" cx="330" cy="118" r="20"/><line x1="330" y1="155" x2="318" y2="200"/><line x1="330" y1="155" x2="342" y2="200"/></g>
+    </g></g>
+    <text x="540" y="60" class="lab">おじぎ → なかへ</text>
+  </svg>
+  <div class="txt">とりいの まえで <span class="te" data-base="とまります">とまって</span>、いちど あたまを <span class="te" data-base="さげます">さげて</span> ください。<br>それから、なかに <span class="te" data-base="はいります">はいって</span> ください。</div>
+</section>
+
+<section class="card">
+  <div class="num">2 / 5</div><h2>みちを あるく</h2>
+  <svg viewBox="0 0 760 300" aria-label="みちの はしを あるく">
+    <polygon points="230,290 530,290 430,20 330,20" fill="#ece6d8"/>
+    <polygon points="350,290 410,290 388,20 372,20" fill="#f6d6d2"/>
+    <text x="380" y="190" class="big blink" text-anchor="middle" style="font-size:60px">✕</text>
+    <text x="470" y="60" class="lab">まんなか ＝ かみさまの みち</text>
+    <g id="f2" class="fig"><g transform="translate(-20,0)">
+      <line x1="290" y1="230" x2="280" y2="288"/><line x1="290" y1="230" x2="300" y2="288"/>
+      <line x1="290" y1="230" x2="290" y2="170"/><circle class="head" cx="290" cy="148" r="20"/><line x1="290" y1="185" x2="275" y2="225"/><line x1="290" y1="185" x2="305" y2="225"/>
+    </g></g>
+    <text x="120" y="280" class="lab">はしを あるく →</text>
+  </svg>
+  <div class="txt">みちの まんなかは かみさまの みちです。<br>はしを <span class="te" data-base="あるきます">あるいて</span> ください。</div>
+</section>
+
+<section class="card">
+  <div class="num">3 / 5</div><h2>てと くちを きれいに する</h2>
+  <svg viewBox="0 0 760 300" aria-label="ひしゃくで てと くちを あらう">
+    <g class="p1">
+      <g class="ladle"><rect x="40" y="60" width="120" height="8" rx="4" fill="#8a5a2b"/><path d="M150 50 h40 v30 a20 20 0 0 1 -40 0z" fill="#b07a40"/></g>
+      <circle class="drop" cx="170" cy="105" r="6" fill="#4aa3df"/><circle class="drop" cx="180" cy="115" r="5" fill="#4aa3df"/>
+      <ellipse cx="175" cy="175" rx="40" ry="18" fill="#f2c9a5"/><text x="175" y="182" text-anchor="middle" class="lab">ひだり</text>
+      <text x="125" y="250" text-anchor="middle" class="big">1</text><text x="125" y="285" text-anchor="middle" class="lab">ひだりてを あらう</text>
+    </g>
+    <g class="p2" transform="translate(250,0)">
+      <g class="ladle"><rect x="40" y="60" width="120" height="8" rx="4" fill="#8a5a2b"/><path d="M150 50 h40 v30 a20 20 0 0 1 -40 0z" fill="#b07a40"/></g>
+      <circle class="drop" cx="170" cy="105" r="6" fill="#4aa3df"/><circle class="drop" cx="180" cy="115" r="5" fill="#4aa3df"/>
+      <ellipse cx="175" cy="175" rx="40" ry="18" fill="#f2c9a5"/><text x="175" y="182" text-anchor="middle" class="lab">みぎ</text>
+      <text x="125" y="250" text-anchor="middle" class="big">2</text><text x="125" y="285" text-anchor="middle" class="lab">もちかえて、みぎてを あらう</text>
+    </g>
+    <g class="p3" transform="translate(500,0)">
+      <g class="ladle"><rect x="40" y="60" width="120" height="8" rx="4" fill="#8a5a2b"/><path d="M150 50 h40 v30 a20 20 0 0 1 -40 0z" fill="#b07a40"/></g>
+      <circle class="drop" cx="170" cy="105" r="6" fill="#4aa3df"/><circle class="drop" cx="180" cy="115" r="5" fill="#4aa3df"/>
+      <path d="M135 165 q40 30 80 0" fill="#f2c9a5" stroke="#d9a87f" stroke-width="3"/><text x="175" y="205" text-anchor="middle" class="lab">てに いれて くちへ</text>
+      <text x="125" y="250" text-anchor="middle" class="big">3</text><text x="125" y="285" text-anchor="middle" class="lab">くちを すすぐ</text>
+    </g>
+  </svg>
+  <div class="txt" style="font-size:23px">ひしゃくを みぎてで <span class="te" data-base="もちます">もって</span>、みずを <span class="te" data-base="すくいます">すくって</span>、ひだりてを あらいます。<br>ひしゃくを ひだりてに <span class="te" data-base="もちかえます">もちかえて</span>、みぎてを あらいます。<br>また みぎてで <span class="te" data-base="もちます">もって</span>、ひだりての てに みずを <span class="te" data-base="いれます">いれて</span>、くちを すすぎます。</div>
+  <div class="note">※ひしゃくに くちを <span class="te" data-base="つけます">つけては</span> いけません。</div>
+</section>
+
+<section class="card">
+  <div class="num">4 / 5</div><h2>おまいり</h2>
+  <svg viewBox="0 0 760 300" aria-label="すず、おさいせん、2かい おじぎ、2かい てを たたく、おねがい、おじぎ">
+    <line x1="230" y1="10" x2="230" y2="40" stroke="#8a5a2b" stroke-width="4"/>
+    <g class="bell"><line x1="230" y1="40" x2="230" y2="150" stroke="#e7b93c" stroke-width="6"/><circle cx="230" cy="40" r="24" fill="#e7b93c"/></g>
+    <rect x="290" y="210" width="140" height="70" rx="6" fill="#8a5a2b"/><text x="360" y="252" text-anchor="middle" class="lab" style="fill:#fff">おさいせん</text>
+    <circle class="coin" cx="360" cy="140" r="12" fill="#d9a441"/>
+    <line x1="40" y1="290" x2="720" y2="290" stroke="#cfc9bd" stroke-width="4"/>
+    <g id="f4" class="fig">
+      <line x1="520" y1="205" x2="505" y2="288"/><line x1="520" y1="205" x2="535" y2="288"/>
+      <g class="upper"><line x1="520" y1="205" x2="520" y2="140"/><circle class="head" cx="520" cy="118" r="20"/><line x1="520" y1="155" x2="495" y2="175"/><line x1="520" y1="155" x2="495" y2="182"/></g>
+    </g>
+    <text x="445" y="160" class="big clap">パン！</text>
+    <text x="470" y="80" class="lab wish">（おねがい）</text>
+    <g class="step4lab"><text x="560" y="40">すず → おさいせん</text><text x="560" y="66">→ おじぎ 2かい</text><text x="560" y="92">→ てを 2かい</text><text x="560" y="118">→ おねがい → おじぎ</text></g>
+  </svg>
+  <div class="txt" style="font-size:23px">すずを <span class="te" data-base="ならします">ならして</span>、おさいせんを <span class="te" data-base="いれます">いれて</span> ください。<br>それから、2かい おじぎを <span class="te" data-base="します">して</span>、2かい てを <span class="te" data-base="たたきます">たたいて</span>、おねがいを <span class="te" data-base="します">してから</span>、<br>もう いちど おじぎを <span class="te" data-base="します">して</span> ください。</div>
+</section>
+
+<section class="card">
+  <div class="num">5 / 5</div><h2>してはいけないこと</h2>
+  <svg viewBox="0 0 760 300" aria-label="たばこ、おさけ、おおきい こえは だめ">
+    <g transform="translate(80,40)"><rect x="20" y="90" width="150" height="22" rx="4" fill="#eee" stroke="#999" stroke-width="2"/><rect x="150" y="90" width="20" height="22" fill="#e07a3a"/><path d="M175 85 q10 -20 0 -40" stroke="#bbb" stroke-width="4" fill="none"/></g>
+    <g transform="translate(320,40)"><path d="M50 40 h50 l-6 120 h-38z" fill="#f3e2b0" stroke="#999" stroke-width="2"/><rect x="62" y="10" width="26" height="30" fill="#c9b37a"/></g>
+    <g transform="translate(540,40)"><circle cx="70" cy="100" r="40" fill="#fff" stroke="var(--ink)" stroke-width="5"/><ellipse cx="70" cy="115" rx="14" ry="18" fill="var(--ink)"/><path d="M125 70 l25 -15 M130 100 h30 M125 130 l25 15" stroke="var(--ink)" stroke-width="5"/></g>
+    <g class="blink"><text x="175" y="180" class="big" style="font-size:90px" text-anchor="middle">✕</text><text x="395" y="180" class="big" style="font-size:90px" text-anchor="middle">✕</text><text x="625" y="180" class="big" style="font-size:90px" text-anchor="middle">✕</text></g>
+    <text x="175" y="280" text-anchor="middle" class="lab">たばこ</text><text x="395" y="280" text-anchor="middle" class="lab">おさけ</text><text x="625" y="280" text-anchor="middle" class="lab">おおきい こえ</text>
+  </svg>
+  <div class="txt">じんじゃで たばこを <span class="te" data-base="すいます">すっては</span> いけません。<br>おさけを <span class="te" data-base="のみます">のんでは</span> いけません。<br>おおきい こえで <span class="te" data-base="はなします">はなしては</span> いけません。</div>
+</section>
+
+<nav><button id="pv">← まえ</button><div class="dots" id="dots"></div><button id="nx">つぎ →</button></nav>
+</div>
+<script>
+const cards=[...document.querySelectorAll('.card')];let at=0;
+const dots=document.getElementById('dots');dots.innerHTML=cards.map(()=>'<span></span>').join('');
+function show(i){at=(i+cards.length)%cards.length;cards.forEach((c,k)=>c.classList.toggle('show',k===at));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===at));
+  // restart animations
+  const c=cards[at];c.querySelectorAll('svg').forEach(s=>{const n=s.cloneNode(true);s.replaceWith(n)});}
+document.getElementById('pv').onclick=()=>show(at-1);document.getElementById('nx').onclick=()=>show(at+1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(at+1);if(e.key==='ArrowLeft')show(at-1)});
+document.getElementById('qz').onclick=e=>{document.body.classList.toggle('quiz');e.target.classList.toggle('on');document.querySelectorAll('.te').forEach(t=>t.classList.remove('open'))};
+document.addEventListener('click',e=>{if(e.target.classList.contains('te')&&document.body.classList.contains('quiz'))e.target.classList.toggle('open')});
+show(0);
+</script>
+</body>
+</html>
